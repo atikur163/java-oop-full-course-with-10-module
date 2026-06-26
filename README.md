@@ -201,6 +201,181 @@ Multiple objects sharing static data
 
 
 
+
+
+
+
+
+
+Module 03 — Constructors :
+
+
+
+
+Course: Java OOP Complete Course
+
+Level: Beginner → Intermediate
+
+Topics: Types of Constructors, Constructor Chaining, this(), Copy Constructor
+
+
+
+
+📌 Recap from Module 02
+
+
+Fields store data, methods define behavior
+this refers to the current object
+Getters/Setters protect private fields
+
+
+Now we go deep into constructors — the special method that runs when an object is born.
+
+
+🔵 What is a Constructor?
+
+A constructor is a special method that:
+
+
+Has the same name as the class
+Has no return type (not even void)
+Runs automatically when you use new
+
+
+javaclass Box {
+    Box() {
+        // this runs when you write: Box b = new Box();
+    }
+}
+
+
+🔵 Types of Constructors
+
+1. Default Constructor
+
+Java provides this automatically if you write no constructor at all.
+
+javaclass Cat {
+    String name;
+    // Java silently adds: Cat() {}
+}
+Cat c = new Cat(); // works even with no constructor written
+
+2. No-Arg Constructor
+
+You write it yourself — useful for setting default values.
+
+javaclass Cat {
+    String name;
+    Cat() {
+        name = "Unknown";
+    }
+}
+
+3. Parameterized Constructor
+
+Accepts values when creating the object.
+
+javaclass Cat {
+    String name;
+    Cat(String name) {
+        this.name = name;
+    }
+}
+Cat c = new Cat("Whiskers");
+
+4. Copy Constructor
+
+Creates a new object as a copy of another object.
+
+javaclass Cat {
+    String name;
+    Cat(Cat other) {          // takes another Cat as input
+        this.name = other.name;
+    }
+}
+Cat original = new Cat("Luna");
+Cat copy     = new Cat(original); // copy of Luna
+
+
+🔵 Constructor Chaining with this()
+
+One constructor can call another using this().
+
+This avoids repeating code across multiple constructors.
+
+javaclass Phone {
+    String brand;
+    String model;
+    int storage;
+
+    Phone() {
+        this("Unknown", "Unknown", 64); // calls 3-param constructor
+    }
+
+    Phone(String brand, String model) {
+        this(brand, model, 128);         // calls 3-param constructor
+    }
+
+    Phone(String brand, String model, int storage) {
+        this.brand   = brand;
+        this.model   = model;
+        this.storage = storage;
+    }
+}
+
+
+⚠️ this() must always be the first line inside a constructor.
+
+
+
+
+🔵 Constructor vs Method
+
+FeatureConstructorMethodNameSame as classAny nameReturn typeNoneMust have one (or void)Called bynew keywordObject or classPurposeInitialize objectDefine behaviorInherited?NoYes
+
+
+🔵 Common Mistakes
+
+java// ✘ WRONG — constructor has a return type
+void MyClass() { }   // this is a method, NOT a constructor!
+
+// ✔ CORRECT
+MyClass() { }
+
+// ✘ WRONG — this() is not the first line
+MyClass(String name) {
+    System.out.println("Hello");
+    this();   // compile error!
+}
+
+// ✔ CORRECT
+MyClass(String name) {
+    this();   // must be first
+    System.out.println("Hello");
+}
+
+
+💻 Code Examples
+
+See Constructors.java for all examples.
+
+What the code covers:
+
+
+No-arg, parameterized, and copy constructors
+Constructor chaining with this()
+Real-world example — Laptop class with all constructor types
+Common mistake demonstration
+
+
+
+✅ Summary
+
+Constructor TypeWhen to UseNo-argSet default valuesParameterizedPass custom values at creationCopyDuplicate an existing objectChained (this())Avoid repeated initialization code
+
+
+
 ✅ Summary
 
 ConceptKey PointInstance fieldEach object has its own copyStatic fieldShared by all objectsMethod overloadingSame name, different parametersthisRefers to current objectGetters/SettersControlled access to private fields
