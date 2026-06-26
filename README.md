@@ -900,3 +900,164 @@ Real-world example — payment system
 ✅ Summary
 
 ConceptKey PointCompile-time polymorphismOverloading — resolved at compile timeRuntime polymorphismOverriding — resolved at runtimeUpcastingChild → Parent, automatic and safeDowncastingParent → Child, manual, use instanceof firstinstanceofCheck actual type before castingPolymorphic arrayOne array holds many child types
+
+
+
+
+
+
+
+
+
+
+Module 07 — Abstraction:
+
+
+
+
+
+
+Course: Java OOP Complete Course
+
+Level: Intermediate → Advanced
+
+Topics: abstract classes, abstract methods, when to use abstraction, abstract vs concrete
+
+
+
+
+📌 Recap from Module 06
+
+
+Overloading = compile-time polymorphism
+Overriding = runtime polymorphism
+Parent reference can hold any child object
+instanceof before downcasting
+
+
+Now we learn Abstraction — the fourth and final OOP pillar.
+
+
+🔵 What is Abstraction?
+
+Abstraction means hiding the complex implementation and showing only the essential features.
+
+Think of a TV remote:
+
+
+You press Power — you don't know the circuit inside
+You press Volume Up — you don't know how the speaker adjusts
+The what is visible, the how is hidden
+
+
+In Java, abstraction is achieved using:
+
+
+Abstract classes (this module)
+Interfaces (next module)
+
+
+
+🔵 Abstract Class
+
+An abstract class is a class that:
+
+
+Cannot be instantiated (you can't do new AbstractClass())
+May contain abstract methods — declared but not implemented
+May also contain concrete methods — fully implemented
+Child classes must implement all abstract methods
+
+
+javaabstract class Shape {
+    abstract double area();          // no body — child MUST implement
+    abstract double perimeter();     // no body — child MUST implement
+
+    void describe() {                // concrete — has a body
+        System.out.println("Area: " + area());
+    }
+}
+
+
+🔵 Abstract Method
+
+An abstract method has:
+
+
+The abstract keyword
+No method body (no {})
+Must be inside an abstract class
+
+
+javaabstract class Animal {
+    abstract void makeSound();   // ✔ no body — just declaration
+    // void makeSound() {}       // ✘ if you add a body, it's not abstract
+}
+
+
+🔵 Concrete Class (child of abstract)
+
+A concrete class extends an abstract class and implements all abstract methods.
+
+javaabstract class Animal {
+    abstract void makeSound();
+}
+
+class Dog extends Animal {
+    @Override
+    void makeSound() {            // must implement — or compile error!
+        System.out.println("Woof!");
+    }
+}
+
+// Animal a = new Animal(); // compile error — cannot instantiate!
+Animal a = new Dog();       // this works — Dog IS-A Animal
+a.makeSound();              // Woof!
+
+
+🔵 Abstract Class Rules
+
+RuleDetailCannot instantiatenew AbstractClass() → compile errorCan have abstract methodsDeclared, no bodyCan have concrete methodsFully implementedCan have constructorsCalled via super() from childCan have fieldsBoth instance and staticChild must implement all abstract methodsOr the child must also be abstract
+
+
+🔵 Abstract vs Concrete — When to Use?
+
+Use an abstract class when:
+
+
+You want to share code among closely related classes
+Some behavior is common (concrete), some must be customized (abstract)
+You want to enforce a contract — child MUST implement certain methods
+
+
+Use a concrete class when:
+
+
+You want to create actual objects
+The class has complete, well-defined behavior
+
+
+
+🔵 Abstract Class vs Interface
+
+FeatureAbstract ClassInterfaceInstantiation❌ Cannot❌ CannotAbstract methods✅ Yes✅ Yes (all by default)Concrete methods✅ Yes✅ Yes (with default)Fields✅ Any typeOnly public static finalConstructors✅ Yes❌ NoInheritanceSingle (extends)Multiple (implements)Use whenRelated classes share codeUnrelated classes share behavior
+
+
+💻 Code Examples
+
+See Abstraction.java for all examples.
+
+What the code covers:
+
+
+Basic abstract class — Shape with Circle, Rectangle, Triangle
+Abstract class with constructor and concrete methods — Vehicle
+Partial abstraction — abstract child of abstract parent
+Real-world example — Employee payroll system with different salary rules
+Template Method Pattern — abstract class defining a fixed algorithm skeleton
+
+
+
+✅ Summary
+
+ConceptKey Pointabstract classCannot be instantiated; may have abstract + concrete methodsabstract methodNo body; child must implementConcrete subclassImplements ALL abstract methodsConstructor in abstract classCalled via super() from childTemplate Method PatternParent defines the flow; child fills in the steps
