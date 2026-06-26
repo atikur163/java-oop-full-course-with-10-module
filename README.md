@@ -556,7 +556,7 @@ ConceptPurposeprivate fieldsHide data from outsideGettersSafe read accessSetters
 
 
 
-Module 05 — Inheritance
+Module 05 — Inheritance:
 
 
 Course: Java OOP Complete Course
@@ -731,3 +731,172 @@ Real-world example — Staff hierarchy: Person → Employee → Manager
 ✅ Summary
 
 ConceptKey PointextendsChild inherits parent's fields and methodssuper()Calls parent constructor (must be first line)super.method()Calls parent's version of a method@OverrideRedefines an inherited methodInheritance chainA → B → C — C gets everything from A and Bfinal classCannot be subclassedfinal methodCannot be overridden
+
+
+
+
+
+
+
+
+
+
+Module 06 — Polymorphism:
+
+
+
+
+
+Course: Java OOP Complete Course
+
+Level: Intermediate
+
+Topics: Compile-time vs Runtime Polymorphism, Upcasting, Downcasting, instanceof
+
+
+
+
+📌 Recap from Module 05
+
+
+extends gives child all parent fields and methods
+super() calls parent constructor
+@Override redefines an inherited method
+Inheritance chains: A → B → C
+
+
+Now we learn Polymorphism — the third OOP pillar.
+
+
+🔵 What is Polymorphism?
+
+Polymorphism means "many forms". The same method name behaves differently depending on which object calls it.
+
+Animal a = new Dog();
+a.makeSound();   // prints "Woof!" — not "Some sound..."
+
+Even though a is declared as Animal, Java runs the Dog version at runtime. That is polymorphism.
+
+
+🔵 Two Types of Polymorphism
+
+TypeAlso CalledResolved AtHowCompile-timeStatic / Method OverloadingCompile timeSame method name, different parametersRuntimeDynamic / Method OverridingRuntimeChild overrides parent's method
+
+
+🔵 Compile-time Polymorphism — Overloading
+
+Same method name, different parameter list. Java picks the right one at compile time.
+
+javaclass Printer {
+    void print(int n)      { System.out.println("Int: "    + n); }
+    void print(double d)   { System.out.println("Double: " + d); }
+    void print(String s)   { System.out.println("String: " + s); }
+    void print(int a, int b){ System.out.println("Sum: "   + (a+b)); }
+}
+
+
+🔵 Runtime Polymorphism — Overriding
+
+A parent reference holds a child object. Java decides at runtime which version to call.
+
+javaAnimal a;
+
+a = new Dog();
+a.makeSound();  // Woof!
+
+a = new Cat();
+a.makeSound();  // Meow!
+
+a = new Bird();
+a.makeSound();  // Tweet!
+
+The reference type is Animal, but the actual object type changes — and Java always runs the actual object's version.
+
+
+🔵 Upcasting and Downcasting
+
+Upcasting — child → parent (automatic, safe)
+
+javaAnimal a = new Dog("Bruno", 3);  // Dog IS-A Animal — automatic
+a.eat();                          // works — inherited from Animal
+// a.fetch();                     // compile error — Animal doesn't know fetch()
+
+Downcasting — parent → child (manual, needs care)
+
+javaAnimal a = new Dog("Bruno", 3);  // upcast first
+Dog d = (Dog) a;                 // downcast — must cast explicitly
+d.fetch();                       // now Dog methods are accessible
+
+
+⚠️ Downcasting the wrong type throws ClassCastException at runtime!
+
+
+
+
+🔵 The instanceof Keyword
+
+Check what type an object actually is before downcasting.
+
+javaAnimal a = new Dog("Bruno", 3);
+
+if (a instanceof Dog) {
+    Dog d = (Dog) a;      // safe to downcast
+    d.fetch();
+}
+
+if (a instanceof Cat) {   // false — a is a Dog, not a Cat
+    // this block won't run
+}
+
+Modern Java (Java 16+) — Pattern Matching
+
+javaif (a instanceof Dog d) {   // check AND cast in one line
+    d.fetch();
+}
+
+
+🔵 Polymorphic Arrays
+
+Store different child objects in one parent-type array — very powerful!
+
+javaAnimal[] zoo = {
+    new Dog("Bruno", 3),
+    new Cat("Luna", 2),
+    new Bird("Sky", 1)
+};
+
+for (Animal a : zoo) {
+    a.makeSound();   // each animal makes its OWN sound
+}
+
+
+🔵 The IS-A Relationship
+
+Inheritance creates an IS-A relationship:
+
+Dog    IS-A Animal  ✔
+Cat    IS-A Animal  ✔
+Animal IS-A Dog     ✘ (reverse is NOT true)
+
+This is why upcasting is always safe — a Dog is always an Animal.
+
+
+💻 Code Examples
+
+See Polymorphism.java for all examples.
+
+What the code covers:
+
+
+Compile-time polymorphism — method overloading
+Runtime polymorphism — method overriding with parent reference
+Upcasting and downcasting safely
+instanceof check before casting
+Polymorphic array — shape area calculator
+Real-world example — payment system
+
+
+
+✅ Summary
+
+ConceptKey PointCompile-time polymorphismOverloading — resolved at compile timeRuntime polymorphismOverriding — resolved at runtimeUpcastingChild → Parent, automatic and safeDowncastingParent → Child, manual, use instanceof firstinstanceofCheck actual type before castingPolymorphic arrayOne array holds many child types
