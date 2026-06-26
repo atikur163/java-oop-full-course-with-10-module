@@ -376,6 +376,176 @@ Constructor TypeWhen to UseNo-argSet default valuesParameterizedPass custom valu
 
 
 
+
+
+
+
+
+
+
+
+
+Module 04 — Encapsulation:
+
+
+
+
+Course: Java OOP Complete Course
+
+Level: Intermediate
+
+Topics: Access Modifiers, Getters/Setters, Data Hiding, Validation, Immutable Classes
+
+
+
+
+📌 Recap from Module 03
+
+
+Constructors initialize objects
+this() chains constructors to avoid repetition
+Copy constructor creates an independent duplicate
+
+
+Now we learn Encapsulation — the first of the 4 OOP pillars.
+
+
+🔵 What is Encapsulation?
+
+Encapsulation means bundling data (fields) and behavior (methods) together inside a class, and hiding the internal details from the outside world.
+
+Think of it like a medicine capsule — the medicine is hidden inside, and you only interact with the outer shell.
+
+Without Encapsulation         With Encapsulation
+─────────────────────         ──────────────────
+account.balance = -5000;      account.deposit(5000);   ✔
+// Anyone can set anything!   // Validation happens inside
+
+
+🔵 Access Modifiers
+
+Java has 4 access levels:
+
+ModifierSame ClassSame PackageSubclassEverywhereprivate✅❌❌❌(default)✅✅❌❌protected✅✅✅❌public✅✅✅✅
+
+The golden rule:
+
+
+🔒 Fields → always private
+
+🔓 Methods → public only if needed outside
+
+
+
+
+🔵 Getters and Setters
+
+The standard way to safely read and write private fields.
+
+javaclass Employee {
+    private String name;   // hidden
+    private int salary;    // hidden
+
+    // Getter — read only
+    public String getName() {
+        return name;
+    }
+
+    // Setter — write with validation
+    public void setSalary(int salary) {
+        if (salary >= 5000) {         // validation!
+            this.salary = salary;
+        } else {
+            System.out.println("Salary too low!");
+        }
+    }
+}
+
+Naming convention:
+
+Field name: age
+Getter:     getAge()
+Setter:     setAge()
+
+Field name: active (boolean)
+Getter:     isActive()   ← note: 'is' instead of 'get' for booleans
+Setter:     setActive()
+
+
+🔵 Why Encapsulation Matters
+
+1. Validation — prevent invalid data
+
+javapublic void setAge(int age) {
+    if (age >= 0 && age <= 120) this.age = age;
+}
+// Without this: person.age = -999; // nonsense!
+
+2. Read-only fields — getter only, no setter
+
+javaprivate String nationalId;       // set once in constructor
+public String getNationalId() { return nationalId; }
+// No setNationalId() — can never be changed after creation
+
+3. Computed values — getter does calculation
+
+javaprivate double baseSalary;
+private double bonus;
+
+public double getTotalSalary() {
+    return baseSalary + bonus;   // computed, not stored separately
+}
+
+
+🔵 Immutable Classes
+
+An immutable class creates objects that cannot be changed after creation.
+
+Rules for immutable classes:
+
+
+All fields private final
+No setters
+Only getters
+Set all values in constructor
+
+
+javapublic final class ImmutablePoint {
+    private final int x;
+    private final int y;
+
+    public ImmutablePoint(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+    // No setters — once created, x and y never change
+}
+
+
+Java's built-in String class is immutable — that's why str.toUpperCase() returns a new String instead of modifying the original.
+
+
+
+
+💻 Code Examples
+
+See Encapsulation.java for all examples.
+
+What the code covers:
+
+
+Basic encapsulation with a Person class
+Validation inside setters — Employee salary rules
+Read-only fields — NationalID card
+Computed getter — ShoppingCart total
+Immutable class — Temperature converter
+Full real-world example — Hospital Patient record
+
+
+
 ✅ Summary
 
-ConceptKey PointInstance fieldEach object has its own copyStatic fieldShared by all objectsMethod overloadingSame name, different parametersthisRefers to current objectGetters/SettersControlled access to private fields
+ConceptPurposeprivate fieldsHide data from outsideGettersSafe read accessSetters with validationSafe write access with rulesRead-only (getter only)Field set once, never changedComputed getterValue calculated on the flyImmutable classObject state never changes after creation
