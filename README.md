@@ -549,3 +549,185 @@ Full real-world example — Hospital Patient record
 ✅ Summary
 
 ConceptPurposeprivate fieldsHide data from outsideGettersSafe read accessSetters with validationSafe write access with rulesRead-only (getter only)Field set once, never changedComputed getterValue calculated on the flyImmutable classObject state never changes after creation
+
+
+
+
+
+
+
+Module 05 — Inheritance
+
+
+Course: Java OOP Complete Course
+
+Level: Intermediate
+
+Topics: extends, super, Method Overriding, Inheritance Chain, final keyword
+
+
+
+
+📌 Recap from Module 04
+
+
+private fields hide data from outside
+Setters validate before changing data
+Immutable classes never change after creation
+
+
+Now we learn Inheritance — the second OOP pillar.
+
+
+🔵 What is Inheritance?
+
+Inheritance lets a class acquire the fields and methods of another class.
+
+
+The class being inherited from = Parent class (also called superclass or base class)
+The class that inherits = Child class (also called subclass or derived class)
+
+
+Parent                Child
+──────                ─────
+Animal   ──extends──► Dog
+Vehicle  ──extends──► Car
+Person   ──extends──► Student
+
+The child gets everything the parent has — and can add its own stuff on top.
+
+
+🔵 The extends Keyword
+
+javaclass Animal {
+    String name;
+    void eat() { System.out.println(name + " is eating."); }
+}
+
+class Dog extends Animal {      // Dog inherits from Animal
+    void bark() { System.out.println(name + " says: Woof!"); }
+}
+
+Dog d = new Dog();
+d.name = "Bruno";
+d.eat();   // inherited from Animal ✔
+d.bark();  // Dog's own method     ✔
+
+
+🔵 The super Keyword
+
+super refers to the parent class. Used for:
+
+1. Calling parent constructor
+
+javaclass Animal {
+    String name;
+    Animal(String name) { this.name = name; }
+}
+
+class Dog extends Animal {
+    String breed;
+    Dog(String name, String breed) {
+        super(name);          // calls Animal's constructor
+        this.breed = breed;
+    }
+}
+
+2. Calling parent method
+
+javaclass Dog extends Animal {
+    @Override
+    void describe() {
+        super.describe();           // runs Animal's describe()
+        System.out.println("Breed: " + breed);  // then adds more
+    }
+}
+
+
+⚠️ super() must always be the first line in a constructor.
+
+
+
+
+🔵 Method Overriding
+
+A child class can redefine a method it inherited from the parent.
+
+javaclass Animal {
+    void makeSound() { System.out.println("Some sound..."); }
+}
+
+class Dog extends Animal {
+    @Override                        // tells Java: intentional override
+    void makeSound() { System.out.println("Woof!"); }
+}
+
+class Cat extends Animal {
+    @Override
+    void makeSound() { System.out.println("Meow!"); }
+}
+
+Override rules:
+
+
+Same method name ✔
+Same parameter list ✔
+Same or wider access modifier ✔
+@Override annotation recommended (catches typos at compile time)
+
+
+
+🔵 Inheritance Chain
+
+Java supports multi-level inheritance (but NOT multiple inheritance with classes).
+
+Animal
+  └── Mammal
+        └── Dog
+
+javaclass Animal  { ... }
+class Mammal  extends Animal { ... }   // Mammal is a child of Animal
+class Dog     extends Mammal { ... }   // Dog is a child of Mammal
+
+Dog inherits from both Mammal AND Animal automatically.
+
+
+🔵 The final Keyword in Inheritance
+
+Used OnEffectfinal classCannot be extended (no child classes)final methodCannot be overridden by childfinal fieldValue cannot be changed after assignment
+
+javafinal class String { ... }        // nobody can extend String
+class MyString extends String { } // compile error!
+
+class Animal {
+    final void breathe() { ... }  // cannot be overridden
+}
+
+
+🔵 What is NOT Inherited?
+
+
+private fields and methods (hidden, but technically present)
+Constructors (not inherited, but called via super())
+Static methods (belong to the class, not the object)
+
+
+
+💻 Code Examples
+
+See Inheritance.java for all examples.
+
+What the code covers:
+
+
+Basic inheritance — Animal → Dog, Cat, Bird
+super to call parent constructor and method
+Method overriding with @Override
+Multi-level inheritance chain — Vehicle → Car → ElectricCar
+Real-world example — Staff hierarchy: Person → Employee → Manager
+
+
+
+✅ Summary
+
+ConceptKey PointextendsChild inherits parent's fields and methodssuper()Calls parent constructor (must be first line)super.method()Calls parent's version of a method@OverrideRedefines an inherited methodInheritance chainA → B → C — C gets everything from A and Bfinal classCannot be subclassedfinal methodCannot be overridden
