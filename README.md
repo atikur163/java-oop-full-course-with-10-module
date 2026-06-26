@@ -1061,3 +1061,187 @@ Template Method Pattern — abstract class defining a fixed algorithm skeleton
 ✅ Summary
 
 ConceptKey Pointabstract classCannot be instantiated; may have abstract + concrete methodsabstract methodNo body; child must implementConcrete subclassImplements ALL abstract methodsConstructor in abstract classCalled via super() from childTemplate Method PatternParent defines the flow; child fills in the steps
+
+
+
+
+
+
+
+
+
+
+Module 08 — Interfaces:
+
+
+
+
+Course: Java OOP Complete Course
+
+Level: Intermediate → Advanced
+
+Topics: interface, implements, default methods, multiple interfaces, functional interfaces
+
+
+
+
+📌 Recap from Module 07
+
+
+Abstract class cannot be instantiated
+Abstract methods have no body — child must implement
+Template Method Pattern: parent defines flow, child fills steps
+
+
+Now we learn Interfaces — Java's most powerful abstraction tool.
+
+
+🔵 What is an Interface?
+
+An interface is a pure contract — it defines what a class must do, but not how.
+
+Think of it like a job description:
+
+
+A "Flyable" contract says: "you must be able to fly"
+A Bird follows this contract, so does a Plane and a Drone
+Each flies differently — the contract doesn't care how
+
+
+javainterface Flyable {
+    void fly();       // contract — implementer MUST provide this
+}
+
+class Bird  implements Flyable { void fly() { ... } }
+class Plane implements Flyable { void fly() { ... } }
+class Drone implements Flyable { void fly() { ... } }
+
+
+🔵 Interface Syntax
+
+javainterface InterfaceName {
+    // Fields — always public static final (constants)
+    int MAX_SPEED = 100;      // implicitly: public static final int MAX_SPEED = 100
+
+    // Abstract methods — always public abstract (no body)
+    void doSomething();       // implicitly: public abstract void doSomething()
+
+    // Default method — has a body, optional to override (Java 8+)
+    default void greet() {
+        System.out.println("Hello from interface!");
+    }
+
+    // Static method — called on the interface itself (Java 8+)
+    static void info() {
+        System.out.println("This is an interface.");
+    }
+}
+
+
+🔵 implements Keyword
+
+A class implements an interface — must provide all abstract methods.
+
+javaclass Dog implements Flyable {
+    @Override
+    public void fly() {
+        System.out.println("Dogs can't fly!"); // still must implement it
+    }
+}
+
+
+⚠️ Interface methods are public by default — your implementation must also be public.
+
+
+
+
+🔵 Multiple Interfaces ← Key Advantage!
+
+A class can implement multiple interfaces — solving Java's single inheritance limitation.
+
+javainterface Swimable  { void swim(); }
+interface Runnable  { void run();  }
+interface Flyable   { void fly();  }
+
+// Duck can do all three!
+class Duck implements Swimable, Runnable, Flyable {
+    public void swim() { System.out.println("Duck swims!"); }
+    public void run()  { System.out.println("Duck runs!"); }
+    public void fly()  { System.out.println("Duck flies!"); }
+}
+
+
+🔵 Interface vs Abstract Class
+
+FeatureInterfaceAbstract ClassInstantiation❌ Cannot❌ CannotFieldsOnly constants (public static final)Any typeMethodsAbstract + default + staticAbstract + concreteConstructors❌ No✅ YesInheritanceMultiple (implements)Single (extends)Use whenUnrelated classes share behaviourRelated classes share code
+
+Simple rule:
+
+
+Use interface when you want to say "this object CAN do X"
+
+Use abstract class when you want to say "this object IS A type of X"
+
+
+
+
+🔵 Default Methods (Java 8+)
+
+Interfaces can have methods with bodies using default.
+
+Classes can override them or use them as-is.
+
+javainterface Greeter {
+    default void greet(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+}
+
+class FormalGreeter implements Greeter {
+    @Override
+    public void greet(String name) {
+        System.out.println("Good day, " + name + "."); // overridden
+    }
+}
+
+class CasualGreeter implements Greeter {
+    // no override — uses default implementation
+}
+
+
+🔵 Functional Interface (Java 8+)
+
+An interface with exactly one abstract method — can be used with lambda expressions.
+
+java@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+}
+
+// Lambda instead of a whole class!
+Calculator add = (a, b) -> a + b;
+Calculator mul = (a, b) -> a * b;
+
+System.out.println(add.calculate(5, 3));  // 8
+System.out.println(mul.calculate(5, 3));  // 15
+
+
+💻 Code Examples
+
+See Interfaces.java for all examples.
+
+What the code covers:
+
+
+Basic interface — Drawable shapes
+Multiple interfaces — Duck implementing Swimmable, Runnable, Flyable
+Interface as a type — polymorphism with interfaces
+Default methods — Printable with shared behaviour
+Functional interface with lambdas — MathOperation
+Real-world example — Smart Home device system
+
+
+
+✅ Summary
+
+ConceptKey PointinterfacePure contract — defines what, not howimplementsClass agrees to follow the contractMultiple interfacesOne class can implement manydefault methodInterface method with a body (optional override)static methodCalled on interface itself, not objectsFunctional interfaceOne abstract method — works with lambdas
